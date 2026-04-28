@@ -1,0 +1,14 @@
+{
+  "Produtos": {
+    "Máquinas": [
+      "Snack",
+      "Colibri"
+    ],
+    "Peças": {
+      "Colibri": [
+        "Motor",
+        "Chicote"
+      ]
+    }
+  }
+}

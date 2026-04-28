@@ -16,9 +16,11 @@ body {
 .main-header {
   display: flex;
   align-items: center;
-  justify-content: center; /* Centraliza a Navbar */
+  justify-content: center;
   position: relative;
   height: 80px;
+  z-index: 1000; /* Garante que o header fique sobre o conteúdo */
+  overflow: visible !important;
 }
 
 .logo {
@@ -27,20 +29,13 @@ body {
   height: 50px;
 }
 
-/* Reset de lista */
-.menu-principal, .submenu, .grandchild-menu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
 /* Menu Principal */
 .menu-principal {
   display: flex;
   gap: 20px;
+  list-style: none;
 }
 
-/* Estilo do Link Principal */
 .nav-link {
   color: #fff;
   text-decoration: none;
@@ -52,13 +47,12 @@ body {
   gap: 8px;
 }
 
-/* Efeito de "Marcado" ao passar o mouse */
 .menu-principal > li:hover > .nav-link {
   background-color: var(--cor-primaria);
   color: white;
 }
 
-/* Estilo dos Submenus (Escondidos e Suaves) */
+/* Configuração Base para TODOS os Submenus */
 .submenu,
 .grandchild-menu {
   list-style: none;
@@ -66,65 +60,96 @@ body {
   margin: 0;
   position: absolute;
   background-color: #2c2c2c;
-  min-width: 200px;
+  min-width: 180px;
   border-radius: 8px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  z-index: 100;
 
-  /* Efeito Suave */
+  /* Estado Inicial (Escondido) */
   opacity: 0;
   visibility: hidden;
-  transform: translateY(10px); /* Começa um pouco abaixo */
   transition: var(--transicao);
 }
 
-/* Faz aparecer suavemente */
-.dropdown:hover > .submenu,
-.submenu-item:hover > .grandchild-menu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0); /* Sobe para a posição original */
+.submenu,
+.grandchild-menu {
+  pointer-events: all;
 }
 
-/* Posicionamento do Segundo Nível */
+/* --- LÓGICA DE POSICIONAMENTO --- */
+
+/* 1º Nível (Abaixo de Produtos): Abre para BAIXO */
+.dropdown {
+  position: relative;
+}
+
+.dropdown > .submenu {
+  top: 100%; /* Brota abaixo do link principal */
+  left: 0;
+  transform: translateY(10px);
+}
+
+.dropdown:hover > .submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* 2º Nível em diante (LATERAIS): Abrem para a DIREITA */
 .submenu-item {
   position: relative;
 }
 
-.submenu-item .grandchild-menu {
-  left: 100%;
-  top: -10px; /* Alinha com o topo do item pai */
-  margin-left: 5px;
+.submenu-item > a {
+  width: 100%;
 }
 
-/* Links dentro dos submenus */
-.submenu li a {
+.submenu-item > .grandchild-menu {
+  top: 0;
+  left: 100%; /* Joga para o lado */
+  margin-left: 2px;
+  transform: translateX(10px);
+}
+
+.submenu-item:hover > .grandchild-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+/* Estilo dos Links Internos */
+.submenu li a,
+.grandchild-menu li a {
   color: #ccc;
-  padding: 12px 20px;
+  padding: 10px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   text-decoration: none;
   transition: var(--transicao);
+  font-size: 0.9rem;
+  white-space: nowrap; /* Evita que o texto quebre linha */
 }
 
 .submenu li a:hover {
   background-color: #3d3d3d;
   color: var(--cor-primaria);
-  padding-left: 25px; /* Efeito de deslize no texto */
+  padding-left: 25px;
 }
 
-/* Ícones menores nos submenus */
+/* Ícones */
 .fa-chevron-right,
 .fa-chevron-down {
   font-size: 0.7em;
   opacity: 0.7;
 }
 
+/* Footer */
 footer {
   display: flex;
   flex-direction: column;
   align-items: center;
   color: var(--text-light);
   font-size: 1rem;
-  padding-bottom: 1rem;
+  padding: 2rem 0;
 }
