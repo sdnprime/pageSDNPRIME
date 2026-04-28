@@ -1,5 +1,6 @@
 @import "./root.css";
 
+/* Configurações Globais */
 * {
   margin: 0;
   padding: 0;
@@ -12,15 +13,13 @@ body {
   line-height: 1.6;
 }
 
-/* Header e Alinhamento */
 .main-header {
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   height: 80px;
-  z-index: 1000; /* Garante que o header fique sobre o conteúdo */
-  overflow: visible !important;
+  z-index: 1000;
 }
 
 .logo {
@@ -29,7 +28,6 @@ body {
   height: 50px;
 }
 
-/* Menu Principal */
 .menu-principal {
   display: flex;
   gap: 20px;
@@ -37,7 +35,7 @@ body {
 }
 
 .nav-link {
-  color: #fff;
+  color: var(--text-light);
   text-decoration: none;
   padding: 10px 15px;
   border-radius: 5px;
@@ -47,101 +45,105 @@ body {
   gap: 8px;
 }
 
-.menu-principal > li:hover > .nav-link {
-  background-color: var(--cor-primaria);
-  color: white;
-}
+/* --- ESTILO DRILL-DOWN --- */
 
-/* Configuração Base para TODOS os Submenus */
-.submenu,
-.grandchild-menu {
-  list-style: none;
-  padding: 10px 0;
-  margin: 0;
-  position: absolute;
-  background-color: #2c2c2c;
-  min-width: 180px;
-  border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-  z-index: 100;
-
-  /* Estado Inicial (Escondido) */
-  opacity: 0;
-  visibility: hidden;
-  transition: var(--transicao);
-}
-
-.submenu,
-.grandchild-menu {
-  pointer-events: all;
-}
-
-/* --- LÓGICA DE POSICIONAMENTO --- */
-
-/* 1º Nível (Abaixo de Produtos): Abre para BAIXO */
 .dropdown {
   position: relative;
 }
 
-.dropdown > .submenu {
-  top: 100%; /* Brota abaixo do link principal */
+.menu-drilldown {
+  position: absolute;
+  top: 100%;
   left: 0;
+  width: 240px; /* Um pouco mais largo para acomodar o texto */
+  background-color: var(--bg-dark);
+  border-radius: 8px;
+  list-style: none;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  /* Estado inicial */
+  opacity: 0;
+  visibility: hidden;
   transform: translateY(10px);
+  transition: all 0.3s ease-in-out;
+  z-index: 100;
 }
 
-.dropdown:hover > .submenu {
+/* Mostra o nível 1 */
+.dropdown:hover > .menu-drilldown {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
 }
 
-/* 2º Nível em diante (LATERAIS): Abrem para a DIREITA */
-.submenu-item {
-  position: relative;
-}
-
-.submenu-item > a {
-  width: 100%;
-}
-
-.submenu-item > .grandchild-menu {
+/* Níveis 2 e 3: começam à direita */
+.menu-drilldown .menu-drilldown {
   top: 0;
-  left: 100%; /* Joga para o lado */
-  margin-left: 2px;
-  transform: translateX(10px);
-}
-
-.submenu-item:hover > .grandchild-menu {
+  transform: translateX(100%);
   opacity: 1;
   visibility: visible;
-  transform: translateX(0);
 }
 
-/* Estilo dos Links Internos */
-.submenu li a,
-.grandchild-menu li a {
+/* Quando ativo, desliza para o centro */
+.menu-drilldown.active {
+  transform: translateX(0) !important;
+  z-index: 200; /* Fica à frente da lista anterior */
+}
+
+/* Botão Voltar */
+.btn-voltar {
+  cursor: pointer;
+  color: var(--text-light);
+  padding: 10px 15px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-dark);
+}
+
+.btn-voltar:hover {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+}
+
+.menu-header {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-dark);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.menu-titulo-texto {
+  padding: 5px 0;
+  text-align: center;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: var(--text-light);
+}
+
+/* Links do Menu */
+.menu-drilldown li a {
   color: #ccc;
-  padding: 10px 20px;
+  padding: 12px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   text-decoration: none;
-  transition: var(--transicao);
   font-size: 0.9rem;
-  white-space: nowrap; /* Evita que o texto quebre linha */
+  transition: background 0.2s;
 }
 
-.submenu li a:hover {
-  background-color: #3d3d3d;
-  color: var(--cor-primaria);
-  padding-left: 25px;
+.menu-drilldown li a:hover {
+  background-color: var(--bg-light);
+  color: var(--bg-dark);
 }
 
-/* Ícones */
 .fa-chevron-right,
+.fa-chevron-left,
 .fa-chevron-down {
-  font-size: 0.7em;
-  opacity: 0.7;
+  font-size: 0.75em;
 }
 
 /* Footer */

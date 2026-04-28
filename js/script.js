@@ -10,11 +10,40 @@ const dadosMenu = {
   },
 };
 
-function criarMenu(obj, container, nivel = 1) {
-  const ul = document.createElement("ul");
+// Função auxiliar para criar o cabeçalho (Título + Voltar) de cada nível
+function adicionarCabecalho(ul, titulo) {
+  const liHeader = document.createElement("li");
+  liHeader.classList.add("menu-header");
 
-  // Se for nível 1, é o submenu que desce. Se for > 1, é o que abre pro lado.
-  ul.classList.add(nivel === 1 ? "submenu" : "grandchild-menu");
+  // Se não for a raiz "Produtos", adicionamos o botão de voltar
+  if (titulo !== "Produtos") {
+    const btnVoltar = document.createElement("div");
+    btnVoltar.classList.add("btn-voltar");
+    btnVoltar.innerHTML = `<i class="fas fa-chevron-left"></i> Voltar`;
+
+    // IMPORTANTE: Remove a classe 'active' especificamente desta UL
+    btnVoltar.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      ul.classList.remove("active");
+    });
+    liHeader.appendChild(btnVoltar);
+  }
+
+  const spanTitulo = document.createElement("span");
+  spanTitulo.classList.add("menu-titulo-texto");
+  spanTitulo.innerText = titulo;
+  liHeader.appendChild(spanTitulo);
+
+  ul.appendChild(liHeader);
+}
+
+function criarMenuDrilldown(obj, container, titulo = "Produtos") {
+  const ul = document.createElement("ul");
+  ul.classList.add("menu-drilldown");
+
+  // Adiciona o cabeçalho com a lógica do botão voltar
+  adicionarCabecalho(ul, titulo);
 
   for (let chave in obj) {
     const li = document.createElement("li");
@@ -22,27 +51,37 @@ function criarMenu(obj, container, nivel = 1) {
     const eObjeto = typeof conteudo === "object" && !Array.isArray(conteudo);
     const eArray = Array.isArray(conteudo);
 
-    // No primeiro nível da lista interna, usamos seta para a direita
-    const icone =
-      eObjeto || eArray ? `<i class="fas fa-chevron-right"></i>` : "";
+    li.innerHTML = `<a href="#">${chave} ${eObjeto || eArray ? '<i class="fas fa-chevron-right"></i>' : ""}</a>`;
 
-    li.innerHTML = `<a href="#">${chave} ${icone}</a>`;
+    if (eObjeto || eArray) {
+      li.classList.add("has-children");
 
-    if (eObjeto) {
-      li.classList.add("submenu-item");
-      // Incrementa o nível na chamada recursiva
-      criarMenu(conteudo, li, nivel + 1);
-    } else if (eArray) {
-      li.classList.add("submenu-item");
-      const ulFinal = document.createElement("ul");
-      ulFinal.classList.add("grandchild-menu");
-
-      conteudo.forEach((item) => {
-        const liItem = document.createElement("li");
-        liItem.innerHTML = `<a href="#">${item}</a>`;
-        ulFinal.appendChild(liItem);
+      // Evento para abrir o próximo nível ao clicar no item
+      li.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const nextUl = li.querySelector(".menu-drilldown");
+        if (nextUl) nextUl.classList.add("active");
       });
-      li.appendChild(ulFinal);
+
+      if (eObjeto) {
+        // Se for um objeto, continua a recursão
+        criarMenuDrilldown(conteudo, li, chave);
+      } else if (eArray) {
+        // Se for um array, cria a lista final de itens
+        const ulFinal = document.createElement("ul");
+        ulFinal.classList.add("menu-drilldown");
+
+        // Adiciona o cabeçalho (com botão voltar) também na lista final do array
+        adicionarCabecalho(ulFinal, chave);
+
+        conteudo.forEach((item) => {
+          const liItem = document.createElement("li");
+          liItem.innerHTML = `<a href="#">${item}</a>`;
+          ulFinal.appendChild(liItem);
+        });
+        li.appendChild(ulFinal);
+      }
     }
     ul.appendChild(li);
   }
@@ -51,16 +90,10 @@ function criarMenu(obj, container, nivel = 1) {
 
 // Inicialização
 const menuDinamico = document.getElementById("menu-dinamico");
-
-// Criamos o item principal "Produtos"
 const liProdutos = document.createElement("li");
 liProdutos.classList.add("dropdown");
-// Note que aqui não colocamos a seta fixa, deixamos a função criarMenu gerenciar os filhos
 liProdutos.innerHTML = `<a href="#" class="nav-link">Produtos <i class="fas fa-chevron-down"></i></a>`;
 
-// Iniciamos a criação a partir do objeto 'Produtos'
-// O container inicial é o liProdutos, então a primeira UL será a '.submenu'
-criarMenu(dadosMenu.Produtos, liProdutos, 1);
-
-// Finalmente adicionamos o bloco de Produtos ao menu principal
+// Constrói o menu a partir de "Produtos"
+criarMenuDrilldown(dadosMenu.Produtos, liProdutos, "Produtos");
 menuDinamico.appendChild(liProdutos);
