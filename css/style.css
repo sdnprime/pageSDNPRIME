@@ -22,13 +22,14 @@ body {
 
 .logo {
   position: absolute;
-  left: 20px; /* Ajuste a distância da borda esquerda */
+  left: 80px; /* Ajuste a distância da borda esquerda */
   height: 50px; /* Ajuste o tamanho da sua logo */
   width: auto;
 }
 
 h1 {
   margin: 0;
+  font-size: 2.5rem;
   /* O H1 agora ocupará o centro real da página */
 }
 
