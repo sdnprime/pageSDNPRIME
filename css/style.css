@@ -8,6 +8,26 @@
 
 body {
   background-color: var(--bg-dark);
-  color: var(--text-dark);
+  color: var(--text-light);
   line-height: 1.6;
+}
+
+.main-header {
+  display: flex;
+  align-items: center; /* Alinha verticalmente no meio */
+  justify-content: center; /* Centraliza o H1 horizontalmente */
+  position: relative; /* Necessário para posicionar a logo em relação ao header */
+  padding: 20px;
+}
+
+.logo {
+  position: absolute;
+  left: 20px; /* Ajuste a distância da borda esquerda */
+  height: 50px; /* Ajuste o tamanho da sua logo */
+  width: auto;
+}
+
+h1 {
+  margin: 0;
+  /* O H1 agora ocupará o centro real da página */
 }
