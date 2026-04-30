@@ -186,50 +186,59 @@ footer {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  width: 50%;
+  width: 70%;
   margin-bottom: 3rem;
 }
 
-/* Remove estilo das listas e define cor das letras */
 .contatos ul,
 .sociais ul {
-  list-style: none; /* Tira as bolinhas */
+  list-style: none;
   padding: 0;
-  margin: 0;
 }
 
 .contatos h4,
-.sociais h4 {
+.sociais h4,
+.endereco h4 {
   color: var(--text-light); /* Ou a cor que preferir para o título */
   margin-bottom: 15px;
   text-transform: uppercase;
   font-size: 1.1rem;
 }
 
-.contatos ul li,
-.sociais ul li {
-  margin-bottom: 10px; /* Espaço entre os itens */
+.endereco p {
+  margin-bottom: 15px; /* Espaço entre os itens */
 }
 
+/* Estilo dos Links */
 .contatos ul li a,
 .sociais ul li a {
-  text-decoration: none;
-  color: #ccc; /* Cor das letras (ajuste conforme seu root) */
   display: flex;
-  align-items: center;
-  gap: 10px; /* Espaço entre o ícone e o texto */
+  align-items: center; /* Centraliza o ícone com o texto */
+  gap: 12px; /* Espaço entre ícone e texto */
+  color: var(--text-light); /* Cor cinza clara para as letras */
+  text-decoration: none;
+  padding: 5px 0;
   transition: color 0.3s ease;
 }
 
-/* Efeito ao passar o mouse */
-.contatos ul li a:hover,
-.sociais ul li a:hover {
-  color: var(--cor-primaria, #ff9900); /* Cor de destaque */
+.sociais ul li a svg {
+  width: 18px; /* Recomendado usar px para ícones para manter constância */
+  height: auto;
+  margin-right: 10px; /* Espaço entre ícone e texto */
+  fill: currentColor;
+  transition: fill 0.3s ease;
 }
 
-/* Estilo específico para os ícones */
+/* Efeito Hover */
+.contatos ul li a:hover,
+.sociais ul li a:hover {
+  color: var(--text-dark); /* Cor de destaque ao passar o mouse */
+}
+
+/* Ajuste dos ícones para ficarem todos na mesma largura */
 .contatos i,
 .sociais i {
-  width: 20px; /* Garante que os ícones fiquem alinhados verticalmente */
+  width: 20px;
   text-align: center;
+  font-size: 1.1rem;
 }
