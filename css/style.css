@@ -22,9 +22,16 @@ body {
   z-index: 1000;
 }
 
-.logo {
+.main-header .sdn {
+  width: auto;
+  height: auto;
   position: absolute;
-  left: 100px;
+  left: 10rem;
+  height: 3rem;
+}
+
+.main-header .sdn .logo {
+  width: 165px;
   height: 50px;
 }
 
