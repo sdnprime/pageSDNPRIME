@@ -24,7 +24,7 @@ body {
 
 .logo {
   position: absolute;
-  left: 20px;
+  left: 100px;
   height: 50px;
 }
 
@@ -52,6 +52,7 @@ body {
 .dropdown.open > .nav-link {
   background-color: var(--bg-light);
   color: var(--text-dark);
+  border-radius: 5px 5px 0 0;
 }
 
 /* Animação da Seta */
@@ -72,15 +73,12 @@ body {
   list-style: none;
   border: 1px solid var(--border-color);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-
-  /* Estado Inicial */
   opacity: 0;
   visibility: hidden;
   transform: translateY(10px);
   transition: all 0.3s ease-in-out;
   z-index: 100;
-
-  /* IMPORTANTE: Removido overflow:hidden para não cortar as listas */
+  min-height: 100%;
 }
 
 /* Abre o menu via classe .open (clique) */
@@ -103,6 +101,12 @@ body {
   opacity: 1 !important;
   visibility: visible !important;
   z-index: 200;
+
+  /* Isso força a lista ativa a preencher o espaço da anterior */
+  min-height: 100%;
+  height: auto;
+  top: 0;
+  left: 0;
 }
 
 .menu-header {
@@ -138,6 +142,11 @@ body {
   padding: 2px 0;
 }
 
+/* 1. Remove qualquer arredondamento padrão de todos os links */
+.menu-drilldown li a {
+  border-radius: 0;
+}
+
 .menu-drilldown li a {
   display: flex;
   align-items: center; /* Centraliza verticalmente o texto e o ícone */
@@ -154,7 +163,7 @@ body {
   color: var(--text-dark);
 }
 
-.menu-drilldown li:last-child a:hover {
+.menu-drilldown > li:last-child > a:hover {
   border-radius: 0 0 8px 8px;
 }
 

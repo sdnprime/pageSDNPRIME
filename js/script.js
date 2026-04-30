@@ -10,17 +10,6 @@ const dadosMenu = {
   },
 };
 
-const menuDinamico = document.getElementById("menu-dinamico");
-const liProdutos = document.createElement("li");
-liProdutos.classList.add("dropdown");
-
-// Estrutura do botão principal com ID para o evento de clique
-liProdutos.innerHTML = `
-  <a href="#" class="nav-link" id="btn-produtos">
-    Produtos <i class="fas fa-chevron-down"></i>
-  </a>
-`;
-
 function adicionarCabecalho(ul, titulo) {
   const liHeader = document.createElement("li");
   liHeader.classList.add("menu-header");
@@ -29,7 +18,6 @@ function adicionarCabecalho(ul, titulo) {
     const btnVoltar = document.createElement("div");
     btnVoltar.classList.add("btn-voltar");
     btnVoltar.innerHTML = `<i class="fas fa-chevron-left"></i> Voltar`;
-
     btnVoltar.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
@@ -86,19 +74,31 @@ function criarMenuDrilldown(obj, container, titulo = "Produtos") {
   container.appendChild(ul);
 }
 
+// --- INICIALIZAÇÃO E POSICIONAMENTO ---
+const menuDinamico = document.getElementById("menu-dinamico");
+const liProdutos = document.createElement("li");
+liProdutos.classList.add("dropdown");
+liProdutos.innerHTML = `<a href="#" class="nav-link" id="btn-produtos">Produtos <i class="fas fa-chevron-down"></i></a>`;
+
 criarMenuDrilldown(dadosMenu.Produtos, liProdutos, "Produtos");
-menuDinamico.appendChild(liProdutos);
 
-// --- Lógica de Clique e Estados ---
+// Insere entre Início (0) e Contato (1)
+const itensIniciais = menuDinamico.querySelectorAll("li");
+if (itensIniciais.length >= 2) {
+  menuDinamico.insertBefore(liProdutos, itensIniciais[1]);
+} else {
+  menuDinamico.appendChild(liProdutos);
+}
+
+// Evento de Clique Principal
 const btnProdutos = document.getElementById("btn-produtos");
-
 btnProdutos.addEventListener("click", (e) => {
   e.preventDefault();
   e.stopPropagation();
   liProdutos.classList.toggle("open");
 });
 
-// Fecha ao clicar fora
+// Fechar ao clicar fora
 document.addEventListener("click", (e) => {
   if (!liProdutos.contains(e.target)) {
     liProdutos.classList.remove("open");
