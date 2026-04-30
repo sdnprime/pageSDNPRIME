@@ -1,14 +1,4 @@
-const dadosMenu = {
-  Produtos: {
-    Máquinas: {
-      Snack: ["6", "AMS"],
-      Colibri: ["C5", "C4", "C3", "C2"],
-    },
-    Peças: {
-      Colibri: ["Motor", "Chicote"],
-    },
-  },
-};
+import dadosMenu from "../dados/dados.json" with { type: "json" };
 
 function adicionarCabecalho(ul, titulo) {
   const liHeader = document.createElement("li");
@@ -41,6 +31,7 @@ function criarMenuDrilldown(obj, container, titulo = "Produtos") {
   for (let chave in obj) {
     const li = document.createElement("li");
     const conteudo = obj[chave];
+    // Verifica se é objeto ou array para decidir se cria subnível
     const eObjeto = typeof conteudo === "object" && !Array.isArray(conteudo);
     const eArray = Array.isArray(conteudo);
 
@@ -80,17 +71,17 @@ const liProdutos = document.createElement("li");
 liProdutos.classList.add("dropdown");
 liProdutos.innerHTML = `<a href="#" class="nav-link" id="btn-produtos">Produtos <i class="fas fa-chevron-down"></i></a>`;
 
+// Usamos diretamente dadosMenu.Produtos que veio do import
 criarMenuDrilldown(dadosMenu.Produtos, liProdutos, "Produtos");
 
-// Insere entre Início (0) e Contato (1)
 const itensIniciais = menuDinamico.querySelectorAll("li");
+// Posiciona o novo <li> entre os itens existentes do HTML[cite: 1]
 if (itensIniciais.length >= 2) {
   menuDinamico.insertBefore(liProdutos, itensIniciais[1]);
 } else {
   menuDinamico.appendChild(liProdutos);
 }
 
-// Evento de Clique Principal
 const btnProdutos = document.getElementById("btn-produtos");
 btnProdutos.addEventListener("click", (e) => {
   e.preventDefault();
@@ -98,7 +89,6 @@ btnProdutos.addEventListener("click", (e) => {
   liProdutos.classList.toggle("open");
 });
 
-// Fechar ao clicar fora
 document.addEventListener("click", (e) => {
   if (!liProdutos.contains(e.target)) {
     liProdutos.classList.remove("open");

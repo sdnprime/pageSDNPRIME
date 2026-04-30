@@ -1,14 +1,17 @@
 {
   "Produtos": {
-    "Máquinas": [
-      "Snack",
-      "Colibri"
-    ],
+    "Máquinas": {
+      "Snack": ["6", "AMS"],
+      "Colibri": ["C5", "C4"],
+      "Koro": [],
+      "Opera": ["Necta"],
+      "Kikko": [],
+      "KikkoMax": [],
+      "Conserto": ["Necta"]
+    },
     "Peças": {
-      "Colibri": [
-        "Motor",
-        "Chicote"
-      ]
+      "Colibri": ["Motor", "Chicote"],
+      "Snack": ["Teclado Membrana", "Chicote", "Motor"]
     }
   }
 }
