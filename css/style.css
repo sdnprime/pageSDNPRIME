@@ -52,7 +52,6 @@ body {
 .dropdown.open > .nav-link {
   background-color: var(--bg-light);
   color: var(--text-dark);
-  border-radius: 5px 5px 0 0;
 }
 
 /* Animação da Seta */
